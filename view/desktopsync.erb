@@ -1,0 +1,26 @@
+ <table style="width:80%">
+ 	<% @environments_info.each do |env| %>
+	 <tr>
+	    <td><a href="<%= env[:ip] %>"><%= env[:ip] %></a></td>
+	    <td></td>		
+	    <td></td>
+	    <td></td>
+  	</tr>
+  	<% @details.each do |d| %>
+  		<tr>
+	  		<td><strong><%= d %></a></strong></td>
+	  		<td><%= env[:info][d]["healthy"] %></td>
+			<td><%= env[:info][d]["message"] %></td>
+			<td>
+					<% if env[:info][d]["message"].include?("Ok") %>
+					<img src="images/ok.png" height="20" width="20">
+					<% else %>
+					<img src="images/nok.png" height="20" width="20">
+					<% end if !d.include?("version")%>
+			</td>			 
+  		</tr>
+  	<% end %>
+  	
+<% end %>
+
+</table>

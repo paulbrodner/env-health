@@ -1,0 +1,19 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    innate (2015.10.28)
+      rack (~> 1.6.4)
+    json (1.8.3)
+    rack (1.6.4)
+    rake (10.4.2)
+    ramaze (2012.12.08)
+      innate (>= 2012.12)
+      rake
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  json
+  rake
+  ramaze (>= 2.0.0)
