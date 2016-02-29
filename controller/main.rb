@@ -45,6 +45,8 @@ class MainController < Controller
     uri = URI.parse(ip)
     response = Net::HTTP.get(uri)
     response_json = JSON.parse(response)
-    {:ip=> ip, :info=> response_json}
+    {:ip=> ip, :info=> response_json, :error=>nil}
+  rescue Exception => e
+    {:ip=> ip, :info=> [], :error=>e}
   end
 end

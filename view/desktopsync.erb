@@ -1,5 +1,14 @@
  <table style="width:80%">
  	<% @environments_info.each do |env| %>
+ 	 <% if env[:error] %>
+ 	 <tr>
+	    <td><a href="<%= env[:ip] %>"><%= env[:ip] %></a></td>
+	    <td></td>		
+	    <td><%= env[:error] %></td>
+	    <td><img src="images/nok.png" height="20" width="20"></td>
+  	</tr>
+  	 <% next %>
+ 	 <% end %>
 	 <tr>
 	    <td><a href="<%= env[:ip] %>"><%= env[:ip] %></a></td>
 	    <td></td>		

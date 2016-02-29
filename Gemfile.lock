@@ -1,5 +1,5 @@
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     innate (2015.10.28)
       rack (~> 1.6.4)
