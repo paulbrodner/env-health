@@ -1,35 +1,59 @@
- <table style="width:80%">
- 	<% @environments_info.each do |env| %>
- 	 <% if env[:error] %>
- 	 <tr>
-	    <td><a href="<%= env[:ip] %>"><%= env[:ip] %></a></td>
-	    <td></td>		
-	    <td><%= env[:error] %></td>
-	    <td><img src="images/nok.png" height="20" width="20"></td>
-  	</tr>
-  	 <% next %>
- 	 <% end %>
-	 <tr>
-	    <td><a href="<%= env[:ip] %>"><%= env[:ip] %></a></td>
-	    <td></td>		
-	    <td></td>
-	    <td></td>
-  	</tr>
-  	<% @details.each do |d| %>
-  		<tr>
-	  		<td><strong><%= d %></a></strong></td>
-	  		<td><%= env[:info][d]["healthy"] %></td>
-			<td><%= env[:info][d]["message"] %></td>
-			<td>
-					<% if env[:info][d]["message"].include?("Ok") %>
-					<img src="images/ok.png" height="20" width="20">
-					<% else %>
-					<img src="images/nok.png" height="20" width="20">
-					<% end if !d.include?("version")%>
-			</td>			 
-  		</tr>
-  	<% end %>
-  	
-<% end %>
+<div class="grid_12">
+    <table class="table" >
+      <thead>
+        <tr>
+          <th>Alfresco</th>
+          <th>Environment</th>
+        </tr>
+      </thead>
+      <% @environments_info.each do |env| %>
+        <tr>
+          <td><a href="<%= env[:details].first[:url] %>"> <%= env[:name] %></a></td>
+          <td>
+            <table class="table" >
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Url</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <% env[:details].each do |details| %>
+              <tr>
+                <td align="center"><%= details[:name] %> </td>
+                <td><a href="<%= details[:url] %>"><%= details[:url] %></a> </td>
+                <td>
+                <table class="table" >
+                  <tr>
+                    <th>Service</th>
+                    <th>Status</th>
+                    <th>Message</th>
+                  </tr>
+                  <% @properties_to_show.each do |property| %>
+                    <tr>
+                      <td><%= property %></td>
+                      <td>
+                        <% if details[:response][:value].empty? %>
+                          <img src="images/nok.png" height="20" width="20">
+                        <%else%>
+                          <% if details[:response][:value][property]["message"].downcase.include?"ok" %>
+                            <img src="images/ok.png" height="20" width="20">
+                          <%else%>
+                            <img src="images/nok.png" height="20" width="20">
+                          <%end%>
+                        <%end%>
+                      </td>
+                      <td><%= details[:response][:value][property]["message"] if !details[:response][:value].empty? %></td>
+                    </tr>
+                  <% end%>
+                </table>
+                </td>
+              </tr>
+              <% end %>
+            </table>
+          </td>
 
-</table>
+        </tr>
+      <% end %>
+    </table>
+</div>

@@ -1,8 +1,8 @@
 # Default url mappings are:
-# 
+#
 # * a controller called Main is mapped on the root of the site: /
 # * a controller called Something is mapped on: /something
-# 
+#
 # If you want to override this, add a line like this inside the class:
 #
 #  map '/otherurl'
@@ -11,10 +11,9 @@
 
 require 'net/http'
 require 'json'
+require 'yaml'
 
 class MainController < Controller
-  
-   
 
   # the index action is called automatically when no other action is specified
   def index
@@ -22,13 +21,22 @@ class MainController < Controller
   end
 
   def desktopsync
-    ips = ['http://172.29.102.130:9093/healthcheck', 'http://172.29.100.170:9093/healthcheck']
     @environments_info = []
+    configs = YAML.load_file(File.join(Ramaze.options.roots,'configs.yml'))
+    @properties_to_show = configs["properties"]
 
-    @details = ['activeMQConnection', 'databaseConnection','repositoryConnection', 'versionCheck']
-    ips.each do |ip|
-      @environments_info.push get_status(ip)
-    end    
+    configs["environments"].each do |environment|
+
+      environment.each do |name, urls|
+       status = []
+       urls.first["urls"].each do |t|
+         t.each do |k,v|
+           status.push ({:name=> k, :url=>v, :response => get_response(v)})
+         end
+       end
+       @environments_info.push({:name=>name, :details => status})
+      end
+    end
   end
 
   # the string returned at the end of the function is used as the html body
@@ -36,17 +44,16 @@ class MainController < Controller
   # is silently ignored
   def notemplate
     @title = 'Automation Environment!'
-    
     return 'There is no \'notemplate.xhtml\' associated with this action.'
   end
 
   private
-  def get_status(ip)
-    uri = URI.parse(ip)
+  def get_response(url)
+    uri = URI.parse(url)
     response = Net::HTTP.get(uri)
     response_json = JSON.parse(response)
-    {:ip=> ip, :info=> response_json, :error=>nil}
+    {:value=> response_json, :error=>nil}
   rescue Exception => e
-    {:ip=> ip, :info=> [], :error=>e}
+    {:value=> [], :error=>e}
   end
 end
