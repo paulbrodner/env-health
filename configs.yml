@@ -1,0 +1,19 @@
+---
+# default proprties that we will search when each urls: are called bellow
+properties: &properties
+- activeMQConnection
+- databaseConnection
+- repositoryConnection
+- eventsHealthCheck
+- versionCheck
+
+environments:
+- 5.1-r122924-b17-v1:
+  - urls:
+    - healthcheck: http://172.29.102.130:9093/healthcheck
+    - healthcheck-ssl: https://172.29.102.130:9090/alfresco/healthcheck
+
+- 5.1-r122924-b17-v2:
+  - urls:
+    - healthcheck: http://172.29.100.174:9093/healthcheck
+    - healthcheck-ssl: https://172.29.100.174:9090/alfresco/healthcheck
