@@ -34,7 +34,7 @@ class MainController < Controller
            status.push ({:name=> k, :url=>v, :response => get_response(v)})
          end
        end
-       @environments_info.push({:name=>name, :details => status})
+       @environments_info.push({:name=>name, :details => status, :share=>urls.last["share"]})
       end
     end
   end

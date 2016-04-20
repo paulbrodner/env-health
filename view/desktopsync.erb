@@ -1,12 +1,12 @@
-<div class="grid_8">
+<div class="grid_13">
   <table class="table" >
     <% @environments_info.each do |env| %>
     <tr>
-      <td><a href="<%= env[:details].first[:url] %>"> <%= env[:name] %></a></td>
+      <td><%= env[:name] %>  [<a target="_blank" href="<%= env[:share] %>"><%= env[:share] %></a>]</td>
       <td>
       <ul class="list-group">
         <% env[:details].each do |details| %>
-          <li class="list-group-item list-group-item-success"><a target="_blank" href="<%= details[:url] %>"><%= details[:name] %></a>
+          <li class="list-group-item list-group-item-success"><%= details[:name] %>  [<a target="_blank" href="<%= details[:url] %>"><%= details[:url] %></a>]
             <table class="table">
               <% @properties_to_show.each do |property| %>
               <tr>
