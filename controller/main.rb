@@ -50,8 +50,14 @@ class MainController < Controller
   private
   def get_response(url)
     uri = URI.parse(url)
-    response = Net::HTTP.get(uri)
-    response_json = JSON.parse(response)
+    http = Net::HTTP.new(uri.host, uri.port)
+    if(uri.scheme=="https")
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+    end
+    request = Net::HTTP::Get.new(uri.request_uri)
+    response = http.request(request)
+    response_json = JSON.parse(response.body)
     {:value=> response_json, :error=>nil}
   rescue Exception => e
     {:value=> [], :error=>e}

@@ -12,6 +12,7 @@ environments:
   - urls:
     - healthcheck: http://172.29.102.130:9093/healthcheck
     - healthcheck-ssl: https://172.29.102.130:9090/alfresco/healthcheck
+    # config: http://172.29.102.130:8080/alfresco/service/devicesync/config
   - share: http://172.29.102.130:8080/share
 
 - 5.1-r122924-b17-v2:
